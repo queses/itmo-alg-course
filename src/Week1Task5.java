@@ -2,13 +2,11 @@ import java.io.BufferedWriter;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.StringTokenizer;
 
-public class TaskFive {
+public class Week1Task5 {
     public static void main(String[] args) throws Exception {
-        new TaskFive().run();
+        new Week1Task5().run();
     }
 
     private BufferedWriter writer;

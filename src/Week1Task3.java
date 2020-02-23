@@ -4,64 +4,63 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.StringTokenizer;
 
-public class TaskFour {
+public class Week1Task3 {
     public static void main(String[] args) throws Exception {
-        new TaskFour().run();
+        new Week1Task3().run();
     }
 
     private void run() throws Exception {
-        double[] input = readInput();
+        long[] input = readInput();
+        long[] indexes = new long[input.length];
 
-        int[] ids = new int[input.length];
-        ids[0] = 0;
+        indexes[0] = 0;
         for (int j = 1; j < input.length; j++) {
-            ids[j] = j;
-
             int i = j;
+            indexes[j] = i;
             while (i > 0) {
                 if (input[i] < input[i - 1]) {
                     swapNumbersInArray(input, i, i - 1);
-                    swapNumbersInArray(ids, i, i - 1);
+                    indexes[j] = i - 1;
                 }
                 i--;
             }
         }
 
-        writeOutput(new int[]{ ids[0], ids[(input.length - 1) / 2], ids[input.length - 1] });
+        writeOutput(input, indexes);
     }
 
-    private void swapNumbersInArray(double[] array, int from, int to) {
-        double temp = array[from];
+    private void swapNumbersInArray (long[] array, int from, int to) {
+        long temp = array[from];
         array[from] = array[to];
         array[to] = temp;
     }
 
-    private void swapNumbersInArray(int[] array, int from, int to) {
-        int temp = array[from];
-        array[from] = array[to];
-        array[to] = temp;
-    }
-
-    private double[] readInput() throws Exception {
+    private long[] readInput() throws Exception {
         String input = new String(Files.readAllBytes(Paths.get("./input.txt")));
         StringTokenizer st = new StringTokenizer(input);
         int length = Integer.parseInt(st.nextToken());
-        double[] result = new double[length];
+        long[] result = new long[length];
 
         for (int i = 0; i < length; i++) {
-            result[i] = Double.parseDouble(st.nextToken());
+            result[i] = Integer.parseInt(st.nextToken());
         }
 
         return result;
     }
 
-    private void writeOutput(int[] items) throws Exception {
+    private void writeOutput(long[] items, long[] indexes) throws Exception {
         StringBuilder sbItems = new StringBuilder();
-        for (int item : items) {
-            sbItems.append(item + 1).append(" ");
+        StringBuilder sbIndexes = new StringBuilder();
+
+        for (int i = 0; i < items.length; i++) {
+            sbItems.append(items[i]).append(" ");
+            sbIndexes.append(indexes[i] + 1).append(" ");
         }
 
+
         BufferedWriter writer = Files.newBufferedWriter(Paths.get("./output.txt"), Charset.forName("UTF-8"));
+        writer.write(sbIndexes.toString());
+        writer.newLine();
         writer.write(sbItems.toString());
         writer.close();
     }

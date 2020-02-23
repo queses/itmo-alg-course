@@ -4,9 +4,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.StringTokenizer;
 
-public class TaskOne {
+public class Week1Task1 {
     public static void main(String[] args) throws Exception {
-        new TaskOne().run();
+        new Week1Task1().run();
     }
 
     private void run() throws Exception {
