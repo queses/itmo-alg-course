@@ -4,7 +4,11 @@ const { readFileSync } = require('fs')
 
 let name = process.argv[2]
 if (!name) {
-    throw new Error('Task name should be provided')
+    console.log(
+        'Usage: node run.js [TASK]\n' +
+        'Examples: "node run.js Week1Task3", "node run.js 1-3"'
+    )
+    process.exit(0)
 }
 
 const nameMatch = name.match(/^(\d+)[-._:](\d+$)/)
