@@ -14,7 +14,7 @@ if (nameMatch) {
 
 const task = spawn(
     'java',
-    [ '-Xss64M', '-Xmx512M', '-cp', join(__dirname, 'out/production/itmo-data-course'), name ],
+    [ '-Xss64M', '-Xmx512M', '-cp', join(__dirname, 'out/production/itmo-alg-course'), name ],
     { cwd: join(__dirname, 'resources/' + name), stdio: 'inherit' }
 )
 
