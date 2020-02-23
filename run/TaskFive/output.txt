@@ -1,0 +1,7 @@
+Swap elements at indices 1 and 2.
+Swap elements at indices 3 and 4.
+Swap elements at indices 2 and 3.
+Swap elements at indices 4 and 5.
+Swap elements at indices 3 and 4.
+No more swaps needed.
+1 2 2 3 4 
