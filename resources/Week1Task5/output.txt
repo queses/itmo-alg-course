@@ -1,7 +1,39 @@
 Swap elements at indices 1 and 2.
+Swap elements at indices 2 and 39.
 Swap elements at indices 3 and 4.
-Swap elements at indices 2 and 3.
 Swap elements at indices 4 and 5.
-Swap elements at indices 3 and 4.
+Swap elements at indices 5 and 8.
+Swap elements at indices 6 and 17.
+Swap elements at indices 7 and 27.
+Swap elements at indices 8 and 39.
+Swap elements at indices 9 and 15.
+Swap elements at indices 10 and 39.
+Swap elements at indices 11 and 40.
+Swap elements at indices 12 and 41.
+Swap elements at indices 13 and 34.
+Swap elements at indices 14 and 19.
+Swap elements at indices 15 and 24.
+Swap elements at indices 16 and 34.
+Swap elements at indices 17 and 24.
+Swap elements at indices 19 and 35.
+Swap elements at indices 20 and 30.
+Swap elements at indices 21 and 30.
+Swap elements at indices 22 and 36.
+Swap elements at indices 23 and 30.
+Swap elements at indices 24 and 41.
+Swap elements at indices 26 and 40.
+Swap elements at indices 27 and 41.
+Swap elements at indices 28 and 34.
+Swap elements at indices 29 and 36.
+Swap elements at indices 30 and 34.
+Swap elements at indices 31 and 39.
+Swap elements at indices 32 and 40.
+Swap elements at indices 33 and 34.
+Swap elements at indices 34 and 36.
+Swap elements at indices 35 and 36.
+Swap elements at indices 36 and 38.
+Swap elements at indices 37 and 38.
+Swap elements at indices 38 and 41.
+Swap elements at indices 40 and 41.
 No more swaps needed.
-1 2 2 3 4 
+1 1 2 2 2 2 3 3 4 4 8 9 13 14 21 29 32 33 45 46 56 67 77 81 82 82 83 85 88 92 93 95 99 192 323 332 382 713 900 994 9438 

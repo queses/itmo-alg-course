@@ -22,9 +22,13 @@ const task = spawn(
     { cwd: join(__dirname, 'resources/' + name), stdio: 'inherit' }
 )
 
+const t0 = process.hrtime()
+
 task.on('exit', (code) => {
     if (code === 0) {
+        const t1 = process.hrtime(t0)
         const outputBuffer = readFileSync(join(__dirname, 'resources/' + name + '/output.txt'))
         console.log(outputBuffer.toString())
+        console.log('\nProcess execution time: ' + t1[0] + '.' + Math.floor(t1[1].toString().substring(0, 5)) + ' s')
     }
 })

@@ -15,6 +15,33 @@ public class Week1Task5 {
         this.initOutputWriter();
 
         long[] input = readInput();
+        selectionSort(input);
+
+        logEnd();
+        writeOutput(input);
+    }
+
+    private void selectionSort (long[] input) throws Exception {
+        for (int j = 0; j < input.length - 1; j++) {
+            int extemumIndex = j;
+            long extremumNum = input[j];
+
+            for (int i = j + 1; i < input.length; i++) {
+                if (input[i] < extremumNum) {
+                    extemumIndex = i;
+                    extremumNum = input[i];
+                }
+            }
+
+            if (extemumIndex != j) {
+                swapNumbersInArray(input, j, extemumIndex);
+                logSwap(j, extemumIndex);
+            }
+        }
+    }
+
+    @Deprecated()
+    private void insertionSort (long[] input) throws Exception {
         for (int j = 1; j < input.length; j++) {
             int i = j;
             while (i > 0) {
@@ -25,9 +52,6 @@ public class Week1Task5 {
                 i--;
             }
         }
-
-        logEnd();
-        writeOutput(input);
     }
 
     private void swapNumbersInArray (long[] array, int from, int to) {
@@ -64,7 +88,9 @@ public class Week1Task5 {
     }
 
     private void logSwap (int from, int to) throws Exception {
-        writer.write("Swap elements at indices " + (to + 1) + " and " + (from + 1) + ".");
+        writer.write("Swap elements at indices " + (
+                (to < from) ? (to + 1) + " and " + (from + 1) + "." : (from + 1) + " and " + (to + 1) + "."
+        ));
         writer.newLine();
     }
 
