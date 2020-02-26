@@ -1,5 +1,6 @@
 # Project Specific
 /resources/util/*
+/tmp/*
 
 !.gitkeep
 

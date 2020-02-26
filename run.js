@@ -3,10 +3,14 @@ const { join } = require('path')
 const { readFileSync } = require('fs')
 
 let name = process.argv[2]
-if (!name) {
+let quietMode = false
+if (name === '--quiet' || name === '-q') {
+    quietMode = true
+    name = process.argv[3]
+} else if (!name) {
     console.log(
-        'Usage: node run.js [TASK]\n' +
-        'Examples: "node run.js Week1Task3", "node run.js 1-3"'
+        'Usage: node run.js [--quiet] [TASK]\n' +
+        'Examples: "node run.js Week1Task3", "node run.js 1-3", "node run.js --quiet 1-3"'
     )
     process.exit(0)
 }
@@ -27,6 +31,10 @@ const t0 = process.hrtime()
 task.on('exit', (code) => {
     if (code === 0) {
         const t1 = process.hrtime(t0)
+        if (quietMode) {
+            return
+        }
+
         const outputBuffer = readFileSync(join(__dirname, 'resources/' + name + '/output.txt'))
         console.log(outputBuffer.toString())
         console.log('\nProcess execution time: ' + t1[0] + '.' + Math.floor(t1[1].toString().substring(0, 5)) + ' s')
