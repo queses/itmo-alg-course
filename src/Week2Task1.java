@@ -10,44 +10,75 @@ public class Week2Task1 {
     }
 
     private BufferedWriter writer;
-    private long[] array;
+    private long[] input;
 
     private void run() throws Exception {
         this.initOutputWriter();
 
         readInput();
-        array = mergeSort(0, array.length - 1);
+        input = mergeSort();
 
         writeOutput();
     }
 
-    private long[] mergeSort (int boundaryStart, int boundaryEnd) throws Exception {
-        if (boundaryEnd == boundaryStart) {
-            return new long[]{ array[boundaryStart] };
-        }
+    private long[] mergeSort () throws Exception {
+        long[] buffer = new long[input.length];
 
-        int subLength = boundaryEnd - boundaryStart + 1;
-        int middle = boundaryStart + ((subLength % 2 == 0) ? subLength / 2 : (subLength - 1) / 2);
-        long[] left = mergeSort(boundaryStart, middle - 1);
-        long[] right = mergeSort(middle, boundaryEnd);
-        long[] target = new long[subLength];
+        long[] source = buffer;
+        long[] target = input;
 
-        int indexLeft = 0;
-        int indexRight = 0;
-        int elements = 0;
-        while (elements < subLength) {
-            if (indexRight >= right.length) {
-                target[elements++] = left[indexLeft++];
-            } else if (indexLeft >= left.length) {
-                target[elements++] = right[indexRight++];
-            } else if (left[indexLeft] < right[indexRight]) {
-                target[elements++] = left[indexLeft++];
+        int partLength;
+        for (partLength = 2; partLength < input.length; partLength *= 2) {
+            if (source == input) {
+                source = buffer;
+                target = input;
             } else {
-                target[elements++] = right[indexRight++];
+                source = input;
+                target = buffer;
+            }
+
+            int index;
+            for (index = 0; index <= input.length - partLength; index += partLength) {
+                merge(source, target, index, index + partLength / 2, partLength);
+            }
+
+            if (index != input.length) {
+                int length = input.length - index;
+                if (length > (partLength / 2)) {
+                    merge(source, target, index, index + partLength / 2, length);
+                } else {
+                    System.arraycopy(source, index, target, index, length);
+                }
             }
         }
 
-        logPartSorted(boundaryStart, boundaryEnd, target[0], target[target.length - 1]);
+
+        return merge(target, source, 0, partLength / 2, input.length);
+    }
+
+    private long[] merge (long[] source, long[] target, int start, int middle, int length) throws Exception {
+        if (length == 1) {
+            target[start] = source[start];
+            return target;
+        }
+
+        int end = start + length - 1;
+        int indexLeft = start;
+        int indexRight = middle;
+        int targetIndex = start;
+        while (targetIndex <= end) {
+            if (indexRight > end) {
+                target[targetIndex++] = source[indexLeft++];
+            } else if (indexLeft >= middle) {
+                target[targetIndex++] = source[indexRight++];
+            } else if (source[indexLeft] < source[indexRight]) {
+                target[targetIndex++] = source[indexLeft++];
+            } else {
+                target[targetIndex++] = source[indexRight++];
+            }
+        }
+
+        logPartSorted(start, end, target[start], target[end]);
 
         return target;
     }
@@ -56,10 +87,10 @@ public class Week2Task1 {
         String inputString = new String(Files.readAllBytes(Paths.get("./input.txt")));
         StringTokenizer st = new StringTokenizer(inputString);
         int length = Integer.parseInt(st.nextToken());
-        array = new long[length];
+        input = new long[length];
 
         for (int i = 0; i < length; i++) {
-            array[i] = Integer.parseInt(st.nextToken());
+            input[i] = Integer.parseInt(st.nextToken());
         }
     }
 
@@ -69,7 +100,7 @@ public class Week2Task1 {
 
     private void writeOutput() throws Exception {
         StringBuilder sbItems = new StringBuilder();
-        for (long item : array) {
+        for (long item : input) {
             sbItems.append(item).append(" ");
         }
 
