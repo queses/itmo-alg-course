@@ -1,0 +1,15 @@
+cmake_minimum_required(VERSION 3.15)
+project(ClionItmo)
+
+set(CMAKE_C_STANDARD 11)
+set(CMAKE_CXX_STANDARD 14)
+add_compile_options(-DJUDGE -O0 -Wl,--stack=67108864)
+
+add_executable(w1t1 src/w1t1.c src/edx-io.c)
+add_executable(w3t1 src/w3t1.c src/edx-io.c)
+add_executable(w3t2 src/w3t2.c src/edx-io.c)
+
+add_executable(w4t1 src/w4t1.cxx src/edx-io.c src/edx-io.cpp)
+add_executable(w4t2 src/w4t2.cxx src/edx-io.c src/edx-io.cpp)
+add_executable(w4t3 src/w4t3.cxx src/edx-io.c src/edx-io.cpp)
+add_executable(w4t4 src/w4t4.cxx src/edx-io.c src/edx-io.cpp)
