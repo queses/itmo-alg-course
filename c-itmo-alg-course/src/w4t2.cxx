@@ -34,6 +34,5 @@ private:
 };
 
 int main() {
-    auto task = std::make_unique<Week4Task2>();
-    task->run();
+    std::make_unique<Week4Task2>()->run();
 }

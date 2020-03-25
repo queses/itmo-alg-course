@@ -19,7 +19,7 @@ void countSort(struct appState *state, char source[], char target[], int counter
 
     int inputOffset = state->linesAmount * (state->lineLength - 1 - digit);
     for (int i = 0; i < state->linesAmount; i++) {
-        char value = (char) (state->inputArr[inputOffset + state->lineOrderArr[i]] - ALPHABET_OFFSET);
+        char value = state->inputArr[inputOffset + state->lineOrderArr[i]];
         source[i] = value;
         counters[value]++;
     }
@@ -57,9 +57,9 @@ void digitSort(struct appState *state) {
         lineOrderTargetArr = lineOrderTmp;
     }
 
-//    free(sourceArr);
-//    free(targetArr);
-//    free(lineOrderTargetArr);
+    free(sourceArr);
+    free(targetArr);
+    free(lineOrderTargetArr);
 }
 
 void writeOutput(const struct appState *state) {
@@ -82,7 +82,7 @@ int main() {
         int offset = j * state.linesAmount;
         char *inputLine = edx_next_unbounded();
         for (int i = 0; i < state.linesAmount; i++) {
-            state.inputArr[i + offset] = inputLine[i];
+            state.inputArr[i + offset] = (char) (inputLine[i] - ALPHABET_OFFSET);
         }
 
         free(inputLine);
