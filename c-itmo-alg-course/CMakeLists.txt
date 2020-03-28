@@ -18,3 +18,6 @@ add_executable(w4t6 src/w4t6.cxx src/edx-io.c src/edx-io.cpp)
 add_executable(w5t1 src/w5t1.cxx src/edx-io.c src/edx-io.cpp)
 add_executable(w5t2 src/w5t2.cxx src/edx-io.c src/edx-io.cpp)
 add_executable(w6t1 src/w6t1.cxx src/edx-io.c src/edx-io.cpp)
+
+add_executable(w6t3 src/w6t3.c src/edx-io.c)
+add_executable(w6t4 src/w6t4.c src/edx-io.c)
