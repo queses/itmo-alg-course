@@ -3,7 +3,7 @@
 #include <memory>
 #include "edx-io.hpp"
 
-class Week5Task2 {
+class Week6Task2 {
 public:
     void run() {
         readInput();
@@ -64,5 +64,5 @@ private:
 };
 
 int main() {
-    std::make_unique<Week5Task2>()->run();
+    std::make_unique<Week6Task2>()->run();
 }
