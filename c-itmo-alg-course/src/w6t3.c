@@ -8,13 +8,13 @@ struct TreeNode {
 };
 
 struct AppState {
-    struct TreeNode *treeNodes;
-    int treeNodesAmount;
+    struct TreeNode *nodes;
+    int nodesAmount;
     int treeDepth;
 };
 
 int getTreeDepth(struct AppState *s, int nodeIndex, int nodeDepth) {
-    struct TreeNode *record = &s->treeNodes[nodeIndex];
+    struct TreeNode *record = &s->nodes[nodeIndex];
 
     if (record->leftIndex < 0 && record->rightIndex < 0) {
         return nodeDepth;
@@ -38,13 +38,13 @@ int getTreeDepth(struct AppState *s, int nodeIndex, int nodeDepth) {
 }
 
 void readTreeInput(struct AppState *s) {
-    s->treeNodesAmount = edx_next_i32();
-    s->treeNodes = malloc(s->treeNodesAmount * sizeof(struct TreeNode));
+    s->nodesAmount = edx_next_i32();
+    s->nodes = malloc(s->nodesAmount * sizeof(struct TreeNode));
 
-    for (int i = 0; i < s->treeNodesAmount; i++) {
-        s->treeNodes[i].key = edx_next_i32();
-        s->treeNodes[i].leftIndex = edx_next_i32() - 1;
-        s->treeNodes[i].rightIndex = edx_next_i32() - 1;
+    for (int i = 0; i < s->nodesAmount; i++) {
+        s->nodes[i].key = edx_next_i32();
+        s->nodes[i].leftIndex = edx_next_i32() - 1;
+        s->nodes[i].rightIndex = edx_next_i32() - 1;
     }
 }
 
@@ -57,11 +57,11 @@ int main() {
 
     struct AppState s = {};
     readTreeInput(&s);
-    s.treeDepth = (s.treeNodesAmount > 0) ? getTreeDepth(&s, 0, 1) : 0;
+    s.treeDepth = (s.nodesAmount > 0) ? getTreeDepth(&s, 0, 1) : 0;
     writeOutput(&s);
 
     edx_close();
-    free(s.treeNodes);
+    free(s.nodes);
 
     return 0;
 }

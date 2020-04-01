@@ -8,12 +8,12 @@ struct TreeNode {
 };
 
 struct AppState {
-    struct TreeNode *treeNodes;
-    int treeNodesAmount;
+    struct TreeNode *nodes;
+    int nodesAmount;
 };
 
 int getTreeNodesAmount(struct AppState *s, int nodeIndex) {
-    struct TreeNode *node = &s->treeNodes[nodeIndex];
+    struct TreeNode *node = &s->nodes[nodeIndex];
 
     int leftNodesAmount = 0;
     if (node->leftIndex >= 0) {
@@ -33,14 +33,14 @@ void removeNodeByKey(struct AppState *s, int key, int nodeIndex, int parentIndex
         return;
     }
 
-    struct TreeNode *node = &s->treeNodes[nodeIndex];
+    struct TreeNode *node = &s->nodes[nodeIndex];
     if (key < node->key) {
         return removeNodeByKey(s, key, node->leftIndex, nodeIndex);
     } else if (key > node->key) {
         return removeNodeByKey(s, key, node->rightIndex, nodeIndex);
     } else {
-        s->treeNodesAmount -= getTreeNodesAmount(s, nodeIndex);
-        struct TreeNode *parent = &s->treeNodes[parentIndex];
+        s->nodesAmount -= getTreeNodesAmount(s, nodeIndex);
+        struct TreeNode *parent = &s->nodes[parentIndex];
         if (key < parent->key) {
             parent->leftIndex = -1;
         } else {
@@ -50,13 +50,13 @@ void removeNodeByKey(struct AppState *s, int key, int nodeIndex, int parentIndex
 }
 
 void buildTree(struct AppState *s) {
-    s->treeNodesAmount = edx_next_i32();
-    s->treeNodes = malloc(s->treeNodesAmount * sizeof(struct TreeNode));
+    s->nodesAmount = edx_next_i32();
+    s->nodes = malloc(s->nodesAmount * sizeof(struct TreeNode));
 
-    for (int i = 0; i < s->treeNodesAmount; i++) {
-        s->treeNodes[i].key = edx_next_i32();
-        s->treeNodes[i].leftIndex = edx_next_i32() - 1;
-        s->treeNodes[i].rightIndex = edx_next_i32() - 1;
+    for (int i = 0; i < s->nodesAmount; i++) {
+        s->nodes[i].key = edx_next_i32();
+        s->nodes[i].leftIndex = edx_next_i32() - 1;
+        s->nodes[i].rightIndex = edx_next_i32() - 1;
     }
 }
 
@@ -64,7 +64,7 @@ void removeNodes(struct AppState *s) {
     int operationsAmount = edx_next_i32();
     for (int i = 0; i < operationsAmount; i++) {
         removeNodeByKey(s, edx_next_i32(), 0, -1);
-        edx_println_i32(s->treeNodesAmount);
+        edx_println_i32(s->nodesAmount);
     }
 }
 
@@ -76,7 +76,7 @@ int main() {
     removeNodes(&s);
 
     edx_close();
-    free(s.treeNodes);
+    free(s.nodes);
 
     return 0;
 }
