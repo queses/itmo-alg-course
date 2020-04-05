@@ -2,7 +2,7 @@
 #include <vector>
 #include "edx-io.hpp"
 
-class Week6Task2 {
+class Week7Task3 {
 public:
     void run() {
         readInput();
@@ -48,6 +48,6 @@ private:
 };
 
 int main() {
-    std::make_unique<Week6Task2>()->run();
+    std::make_unique<Week7Task3>()->run();
     return 0;
 }
