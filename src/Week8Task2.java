@@ -4,11 +4,11 @@ import java.io.StreamTokenizer;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class Week8Task2 {
-    private final HashMap<String, OrderedMapItem> hashMap = new HashMap<>();
+    private final StringHashMap<OrderedMapItem> hashMap = new StringHashMap<>();
     private final List<String> itemsOrder = new ArrayList<>();
 
     public static void main(String[] args) throws Exception {
@@ -75,8 +75,8 @@ public class Week8Task2 {
     }
 
     private void putInto (String key, String value) {
-        if (!hashMap.containsKey(key)) {
-            hashMap.put(key, new OrderedMapItem(value, itemsOrder.size()));
+        if (!hashMap.has(key)) {
+            hashMap.add(key, new OrderedMapItem(value, itemsOrder.size()));
             itemsOrder.add(key);
         } else {
             hashMap.get(key).value = value;
@@ -85,7 +85,7 @@ public class Week8Task2 {
 
 
     private void deleteFrom (String key) {
-        if (!hashMap.containsKey(key)) {
+        if (!hashMap.has(key)) {
             return;
         }
 
@@ -99,7 +99,7 @@ public class Week8Task2 {
     }
 
     private OrderedMapItem getNext (String key) {
-        if (!hashMap.containsKey(key)) {
+        if (!hashMap.has(key)) {
             return null;
         }
 
@@ -109,7 +109,7 @@ public class Week8Task2 {
             nextItemHash = itemsOrder.get(order);
         }
 
-        if (nextItemHash != null && hashMap.containsKey(nextItemHash)) {
+        if (nextItemHash != null && hashMap.has(nextItemHash)) {
             return hashMap.get(itemsOrder.get(order));
         } else {
             return null;
@@ -117,7 +117,7 @@ public class Week8Task2 {
     }
 
     private OrderedMapItem getPrev (String key) {
-        if (!hashMap.containsKey(key)) {
+        if (!hashMap.has(key)) {
             return null;
         }
 
@@ -127,7 +127,7 @@ public class Week8Task2 {
             nextItemHash = itemsOrder.get(order);
         }
 
-        if (nextItemHash != null && hashMap.containsKey(nextItemHash)) {
+        if (nextItemHash != null && hashMap.has(nextItemHash)) {
             return hashMap.get(itemsOrder.get(order));
         } else {
             return null;
@@ -141,6 +141,91 @@ public class Week8Task2 {
         OrderedMapItem (String value, int order) {
             this.value = value;
             this.order = order;
+        }
+    }
+
+    private static class StringHashMap<T> {
+        private static class Item<VT> {
+            String key;
+            VT value;
+
+            Item(String key, VT value) {
+                this.key = key;
+                this.value = value;
+            }
+
+        }
+
+        private static final int KEY_ALPHABET_SIZE = 58; // 57 + 1
+        private static final int KEY_ALPHABET_OFFSET = 65; // Index of "A" in ASCII is 67
+        private static final int HASH_SIZE = 64007;
+
+        private final List<List<Item<T>>> hashPool;
+
+        StringHashMap() {
+            hashPool = new ArrayList<>(StringHashMap.HASH_SIZE);
+        }
+
+        void add(String key, T value) {
+            int hashIndex = hashKey(key);
+            for (int i = hashPool.size(); i <= hashIndex; i++) {
+                hashPool.add(null);
+            }
+
+            List<Item<T>> list = hashPool.get(hashIndex);
+            if (list == null) {
+                list = new LinkedList<>();
+                hashPool.set(hashIndex, list);
+            }
+
+            list.add(new Item<>(key, value));
+        }
+
+        void remove(String key) {
+            int hashIndex = hashKey(key);
+            if (hashIndex >= hashPool.size()) {
+                return;
+            }
+
+            List<Item<T>> list = hashPool.get(hashIndex);
+            if (list != null) {
+                list.removeIf(item -> key.equals(item.key));
+            }
+        }
+
+        T get (String key) {
+            int hashIndex = hashKey(key);
+            if (hashIndex >= hashPool.size()) {
+                return null;
+            }
+
+            List<Item<T>> list = hashPool.get(hashIndex);
+            if (list != null) {
+                for (Item<T> item : list) {
+                    if (key.equals(item.key)) {
+                        return item.value;
+                    }
+                }
+            }
+
+            return null;
+        }
+
+        boolean has(String key) {
+            return (get(key) != null);
+        }
+
+        private int hashKey(String key) {
+            long asInt = 0;
+            int keyLen = key.length();
+
+            int multiplier = 1;
+            for (int i = 0; i < keyLen; i++) {
+                asInt += multiplier * (key.charAt(i) - KEY_ALPHABET_OFFSET);
+                multiplier *= KEY_ALPHABET_SIZE;
+            }
+
+            return Math.abs((int) (asInt % HASH_SIZE));
         }
     }
 }
