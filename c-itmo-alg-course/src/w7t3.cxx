@@ -23,7 +23,7 @@ public:
             return;
         }
 
-        int parentIndex = findNodeParent(key);
+        int parentIndex = findNode(key);
         TreeNode *parent = nodeAt(parentIndex);
         if (key == parent->key) {
             return;
@@ -87,13 +87,13 @@ private:
         return rightHeight - leftHeight;
     }
 
-    int findNodeParent(int key, int nodeIndex = 0) {
+    int findNode(int key, int nodeIndex = 0) {
         TreeNode *node = nodeAt(nodeIndex);
 
         if (key < node->key && node->leftIndex >= 0) {
-            return findNodeParent(key, node->leftIndex);
+            return findNode(key, node->leftIndex);
         } else if (key > node->key && node->rightIndex >= 0) {
-            return findNodeParent(key, node->rightIndex);
+            return findNode(key, node->rightIndex);
         } else {
             return nodeIndex;
         }
